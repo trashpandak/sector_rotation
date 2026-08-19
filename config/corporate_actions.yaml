@@ -1,0 +1,28 @@
+# Manual corporate-action registry. yfinance's auto_adjust=True already
+# handles standard splits/bonuses/dividends for OFFICIAL indices and
+# constituent stocks in most cases -- this registry exists as a documented
+# safety net / audit trail for anomalies auto_adjust might not catch cleanly
+# (e.g. a symbol change, a demerger with a messy price series around the
+# effective date). Entries here are informational: the Validation Framework
+# cross-references large single-day price moves against this registry and
+# downgrades/annotates findings that ARE explained by a registered action,
+# rather than silently suppressing them.
+#
+# Example entry (uncomment/edit when a real action needs registering):
+# actions:
+#   - symbol: "SYMBOL"
+#     action_type: "SPLIT"        # SPLIT | BONUS | DEMERGER | SYMBOL_CHANGE
+#     effective_date: "2026-01-01"
+#     notes: "1:2 stock split"
+actions:
+  - symbol: "TATAMOTORS"
+    action_type: "DEMERGER"
+    effective_date: "2025-10-24"
+    notes: >
+      Tata Motors demerged into Tata Motors Passenger Vehicles Ltd (TMPV --
+      passenger vehicles, EV, Jaguar Land Rover) and Tata Motors Ltd, the
+      renamed former TML Commercial Vehicles Ltd (TMCV -- commercial
+      vehicles). The original TATAMOTORS symbol is retired; the seed
+      universe now lists both successor entities (TMPV, TMCV) under
+      AUTO_OEM. Confirmed via NSE circular dated 16 October 2025 and TMCV's
+      Nov 12, 2025 listing.

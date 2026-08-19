@@ -1,0 +1,218 @@
+# Custom synthetic sector indices built from the seed universe. These coexist
+# with (never replace) official_indices.yaml -- the dashboard tags every index
+# as OFFICIAL or CUSTOM so they can be compared directly.
+#
+# Weighting default: MCAP (market-cap weight) with a 30% single-constituent
+# cap. Justification: pure market-cap weighting is the standard for
+# broad-market indices, but a *sector* index built from a small constituent
+# list is much more prone to one mega-cap distorting the whole sector's
+# reading (e.g. Reliance would dominate an "Energy" sector index). Capping
+# any one constituent at 30% keeps the index representative of sector
+# rotation rather than single-stock movement, without going all the way to
+# EQUAL weight (which would overweight illiquid small constituents and add
+# noise). EQUAL weight is used for indices with only 2 constituents, where a
+# 30% cap would immediately hit the documented infeasible-cap fallback
+# anyway (see custom_index/weighting.py) -- EQUAL is simpler and equivalent
+# in that case.
+#
+# `cap_split: true` additionally generates {code}_LARGE / _MID / _SMALL
+# sub-indices from the same constituent pool, filtered by capitalization band
+# (config/capitalization_bands.yaml) -- but ONLY for bands that clear
+# min_constituents_for_cap_split, so a sector with just one small-cap name
+# doesn't get a meaningless 1-stock "sub-index". Set true only where the
+# seed universe actually has cap diversity for that sector.
+#
+# `rebalance_frequency` controls how often constituents/weights are
+# recomputed (quarterly-lock, same institutional-index convention as the
+# sibling Market Intelligence Engine project).
+indices:
+  # --- Financials ---
+  - code: CUSTOM_BANKS
+    name: "Custom Banks"
+    sector_filter: "BANKS"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_PRIVATE_BANKS
+    name: "Custom Private Banks"
+    sector_filter: "BANKS"
+    industry_filter: "PRIVATE_BANKS"
+    weighting_method: MCAP
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_PSU_BANKS
+    name: "Custom PSU Banks"
+    sector_filter: "BANKS"
+    industry_filter: "PSU_BANKS"
+    weighting_method: EQUAL
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_NBFC
+    name: "Custom NBFC"
+    sector_filter: "NBFC"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_INSURANCE
+    name: "Custom Insurance"
+    sector_filter: "INSURANCE"
+    weighting_method: MCAP
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_CAPITAL_MARKETS
+    name: "Custom Capital Markets"
+    sector_filter: "CAPITAL_MARKETS"
+    weighting_method: EQUAL
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+
+  # --- Technology ---
+  - code: CUSTOM_IT_SERVICES
+    name: "Custom IT Services"
+    sector_filter: "IT_SERVICES"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+
+  # --- Industrials ---
+  - code: CUSTOM_DEFENCE
+    name: "Custom Defence"
+    sector_filter: "DEFENCE"
+    weighting_method: EQUAL
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_CAPITAL_GOODS
+    name: "Custom Capital Goods"
+    sector_filter: "CAPITAL_GOODS"
+    weighting_method: MCAP
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_RAILWAYS
+    name: "Custom Railways"
+    sector_filter: "RAILWAYS"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_INFRASTRUCTURE
+    name: "Custom Infrastructure"
+    sector_filter: "INFRASTRUCTURE"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+
+  # --- Healthcare ---
+  - code: CUSTOM_PHARMA
+    name: "Custom Pharma"
+    sector_filter: "PHARMACEUTICALS"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_HOSPITALS
+    name: "Custom Hospitals"
+    sector_filter: "HOSPITALS"
+    weighting_method: EQUAL
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_DIAGNOSTICS
+    name: "Custom Diagnostics"
+    sector_filter: "DIAGNOSTICS"
+    weighting_method: EQUAL
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+
+  # --- Consumer ---
+  - code: CUSTOM_FMCG
+    name: "Custom FMCG"
+    sector_filter: "FMCG"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_RETAIL
+    name: "Custom Retail"
+    sector_filter: "RETAIL"
+    weighting_method: MCAP
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_CONSUMER_DURABLES
+    name: "Custom Consumer Durables"
+    sector_filter: "CONSUMER_DURABLES"
+    weighting_method: EQUAL
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_TEXTILES
+    name: "Custom Textiles"
+    sector_filter: "TEXTILES"
+    weighting_method: EQUAL
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_MEDIA
+    name: "Custom Media"
+    sector_filter: "MEDIA"
+    weighting_method: EQUAL
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+
+  # --- Automobiles ---
+  - code: CUSTOM_AUTO
+    name: "Custom Auto"
+    sector_filter: "AUTO_OEM"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_AUTO_ANCILLARY
+    name: "Custom Auto Ancillary"
+    sector_filter: "AUTO_ANCILLARY"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+
+  # --- Energy ---
+  - code: CUSTOM_ENERGY
+    name: "Custom Energy"
+    sector_filter: "OIL_GAS"
+    weighting_method: MCAP
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_POWER
+    name: "Custom Power"
+    sector_filter: "POWER"
+    weighting_method: EQUAL
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_RENEWABLE_ENERGY
+    name: "Custom Renewable Energy"
+    sector_filter: "RENEWABLE_ENERGY"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+
+  # --- Materials ---
+  - code: CUSTOM_METALS_MINING
+    name: "Custom Metals & Mining"
+    sector_filter: "METALS_MINING"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_CEMENT
+    name: "Custom Cement"
+    sector_filter: "CEMENT"
+    weighting_method: EQUAL
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_SPECIALTY_CHEMICALS
+    name: "Custom Specialty Chemicals"
+    sector_filter: "SPECIALTY_CHEMICALS"
+    weighting_method: MCAP
+    cap_split: true
+    rebalance_frequency: QUARTERLY
+  - code: CUSTOM_AGRO_CHEMICALS
+    name: "Custom Agro Chemicals"
+    sector_filter: "AGRO_CHEMICALS"
+    weighting_method: EQUAL
+    cap_split: false
+    rebalance_frequency: QUARTERLY
+
+weighting_params:
+  MCAP:
+    cap_single_constituent_pct: 30
+  EQUAL: {}

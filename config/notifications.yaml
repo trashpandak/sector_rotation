@@ -1,0 +1,12 @@
+# Optional post-run notification. Both are no-ops unless the corresponding
+# webhook/token env var is set (read at runtime, never committed to the
+# repo -- set as a GitHub Actions secret). Safe to leave both disabled.
+notifications:
+  slack:
+    enabled: false
+    webhook_url_env: "SLACK_WEBHOOK_URL"
+  telegram:
+    enabled: false
+    bot_token_env: "TELEGRAM_BOT_TOKEN"
+    chat_id_env: "TELEGRAM_CHAT_ID"
+  top_n_movers: 5

@@ -1,0 +1,30 @@
+# RRG methodology parameters -- see docs/METHODOLOGY.md for the full
+# mathematical explanation of every one of these.
+rrg:
+  rs_ratio_window: 14        # rolling window (in bars of the active timeframe) for RS-Ratio normalization
+  rs_momentum_roc_period: 5  # bars back for the RS-Ratio rate-of-change feeding RS-Momentum
+  rs_momentum_window: 14     # rolling window for RS-Momentum normalization
+  min_history_bars: 20       # below this many bars, RRG coordinates are not computed (insufficient history)
+  # Scales the rolling z-score before adding it to the 100 center point:
+  #   rs_ratio = 100 + scale_factor * zscore(relative_strength, window)
+  # A z-score of +-1 (routine for a return series) becomes +-10 at scale_factor=10,
+  # giving a practical RS-Ratio range roughly in the 70-130 band for ordinary
+  # market conditions -- close to how published RRG charts read (most points
+  # cluster in the 85-115 range). scale_factor=100 (i.e. using the raw z-score
+  # times 100) was tried first and produces an unusably wide, unrealistic
+  # spread (a routine z=1.3 move already hits -33 or +233) -- caught by the
+  # Validation Framework's rrg_coordinate_sanity check during testing.
+  scale_factor: 10
+
+timeframes:
+  - DAILY
+  - WEEKLY
+  - MONTHLY
+
+trail:
+  default_periods: 10
+  allowed_periods: [5, 10, 20, 30]
+
+quadrants:
+  # Center is always (100, 100) since both axes are normalized around 100.
+  center: 100

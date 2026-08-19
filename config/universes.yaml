@@ -1,0 +1,31 @@
+# NSE broad-market universes a stock can belong to (many-to-many -- a stock
+# is typically in several, e.g. NIFTY50 implies NIFTY100/200/500 membership
+# too). Membership is tagged per-instrument in seed_universe.csv's
+# `nifty_universes` column (pipe-separated).
+#
+# IMPORTANT, stated plainly: membership tags in seed_universe.csv are a
+# documented APPROXIMATION for this project's small hand-curated universe,
+# not sourced from an authoritative live NSE index-constituent feed. The
+# architecture fully supports real membership data (this column is the only
+# thing that would need replacing with an official feed) -- see README.
+universes:
+  - code: NIFTY50
+    name: "Nifty 50"
+  - code: NIFTY100
+    name: "Nifty 100"
+  - code: NIFTY200
+    name: "Nifty 200"
+  - code: NIFTY500
+    name: "Nifty 500"
+  - code: MIDCAP150
+    name: "Nifty Midcap 150"
+  - code: SMALLCAP250
+    name: "Nifty Smallcap 250"
+  - code: SMALLCAP500
+    name: "Nifty Smallcap 500"
+
+# Universes custom indices are actually built for on each pipeline run (kept
+# small by default to bound compute/report size -- add more here to build
+# more; each active universe gets its own full set of custom sector indices,
+# suffixed with the universe code, e.g. CUSTOM_BANKS__NIFTY50).
+active_universes: ["NIFTY50", "NIFTY500"]

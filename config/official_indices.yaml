@@ -1,0 +1,72 @@
+# Official NSE indices, fetched directly from Yahoo Finance -- NOT constructed
+# from constituents. These coexist with (never replace) the custom synthetic
+# indices in custom_indices.yaml.
+#
+# Ticker verification note: every ticker below was confirmed against a LIVE
+# Yahoo Finance quote page (not just a secondary source) as of this config's
+# last edit. If a production run still logs "possibly delisted; no price
+# data found" for one of these, that is very likely NOT a wrong ticker --
+# it's Yahoo Finance's well-documented rate-limiting of shared/cloud IPs
+# (GitHub Actions runners in particular), which is known to intermittently
+# affect even blue-chip tickers like AAPL. See
+# data_acquisition/sources.py's per-ticker retry fallback, which is the
+# actual fix for that failure mode. Only re-verify/replace a ticker here if
+# it independently 404s on finance.yahoo.com/quote/<ticker>, not merely
+# because a single pipeline run logged an error for it.
+benchmarks:
+  # The default/primary benchmark for RRG relative-strength calculations.
+  - code: NIFTY500
+    name: "Nifty 500"
+    ticker: "^CRSLDX"
+    is_default_benchmark: true
+  - code: NIFTY50
+    name: "Nifty 50"
+    ticker: "^NSEI"
+    is_default_benchmark: false
+
+indices:
+  - code: OFFICIAL_BANK
+    name: "Nifty Bank"
+    ticker: "^NSEBANK"
+  - code: OFFICIAL_IT
+    name: "Nifty IT"
+    ticker: "^CNXIT"
+  - code: OFFICIAL_AUTO
+    name: "Nifty Auto"
+    ticker: "^CNXAUTO"
+  - code: OFFICIAL_PHARMA
+    name: "Nifty Pharma"
+    ticker: "^CNXPHARMA"
+  - code: OFFICIAL_METAL
+    name: "Nifty Metal"
+    ticker: "^CNXMETAL"
+  - code: OFFICIAL_FMCG
+    name: "Nifty FMCG"
+    ticker: "^CNXFMCG"
+  - code: OFFICIAL_ENERGY
+    name: "Nifty Energy"
+    ticker: "^CNXENERGY"
+  - code: OFFICIAL_REALTY
+    name: "Nifty Realty"
+    ticker: "^CNXREALTY"
+  - code: OFFICIAL_PSU_BANK
+    name: "Nifty PSU Bank"
+    ticker: "^CNXPSUBANK"
+  - code: OFFICIAL_PVT_BANK
+    name: "Nifty Private Bank"
+    ticker: "NIFTY_PVT_BANK.NS"
+  - code: OFFICIAL_FIN_SERVICE
+    name: "Nifty Financial Services"
+    ticker: "^CNXFIN"
+  - code: OFFICIAL_HEALTHCARE
+    name: "Nifty Healthcare"
+    ticker: "NIFTY_HEALTHCARE.NS"
+  - code: OFFICIAL_OIL_GAS
+    name: "Nifty Oil & Gas"
+    ticker: "NIFTY_OIL_AND_GAS.NS"
+  - code: OFFICIAL_CONSUMPTION
+    name: "Nifty Consumption"
+    ticker: "^CNXCONSUM"
+  - code: OFFICIAL_INFRA
+    name: "Nifty Infrastructure"
+    ticker: "^CNXINFRA"

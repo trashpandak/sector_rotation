@@ -1,0 +1,8 @@
+[project]
+name = "nse-rotation-compass"
+version = "0.1.0"
+description = "NSE sector rotation and Relative Rotation Graph analytics"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]

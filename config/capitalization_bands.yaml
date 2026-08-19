@@ -1,0 +1,21 @@
+# Market-cap thresholds (INR crores) used to split custom sector indices into
+# Large/Mid/Small-cap variants (e.g. CUSTOM_DEFENCE_LARGE / _MID / _SMALL).
+# Thresholds follow SEBI's periodically-published large/mid/small cap
+# classification convention (rank-based in practice; approximated here as
+# fixed absolute thresholds for a config-driven, transparent v1).
+bands:
+  - code: LARGE
+    min_mcap_cr: 20000
+  - code: MID
+    min_mcap_cr: 5000
+    max_mcap_cr: 20000
+  - code: SMALL
+    min_mcap_cr: 500
+    max_mcap_cr: 5000
+  - code: MICRO
+    max_mcap_cr: 500
+
+# A custom index only gets Large/Mid/Small sub-indices generated if it has at
+# least this many constituents in a given band (a 1-stock "sub-index" isn't a
+# meaningful sector reading).
+min_constituents_for_cap_split: 2

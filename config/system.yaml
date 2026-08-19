@@ -1,0 +1,21 @@
+db_path: "data/rrg.db"
+report_output_dir: "reports"
+docs_output_dir: "docs"     # latest report also copied here for GitHub Pages
+timezone: "Asia/Kolkata"
+
+data:
+  source: "yfinance"          # pluggable: yfinance | synthetic (see data_acquisition/)
+  symbol_suffix: ".NS"        # NSE suffix for yfinance stock tickers
+  initial_backfill_days: 730  # ~2 years, enough for monthly RRG + rolling normalization windows
+  daily_lookback_days: 10
+
+pipeline:
+  halt_on_critical_validation: true
+
+api:
+  # Empty list = no auth enforced. To require a key, list one or more here
+  # and consumers send it as the X-API-Key header. This API is entirely
+  # optional -- the dashboard is a standalone HTML file and never depends on
+  # it running.
+  api_keys: []
+  cors_allow_origins: ["*"]

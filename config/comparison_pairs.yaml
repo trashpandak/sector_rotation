@@ -1,0 +1,33 @@
+# Maps a custom sector index to the official NSE index covering roughly the
+# same theme, so the dashboard's "Official vs Custom" panel can show them
+# side by side. Custom index codes here are the BASE codes (before the
+# __{universe} suffix added at registration time) -- the dashboard resolves
+# the concrete pairing per active universe.
+pairs:
+  - custom: "CUSTOM_BANKS"
+    official: "OFFICIAL_BANK"
+    label: "Banks"
+  - custom: "CUSTOM_PRIVATE_BANKS"
+    official: "OFFICIAL_PVT_BANK"
+    label: "Private Banks"
+  - custom: "CUSTOM_PSU_BANKS"
+    official: "OFFICIAL_PSU_BANK"
+    label: "PSU Banks"
+  - custom: "CUSTOM_IT_SERVICES"
+    official: "OFFICIAL_IT"
+    label: "IT Services"
+  - custom: "CUSTOM_PHARMA"
+    official: "OFFICIAL_PHARMA"
+    label: "Pharma"
+  - custom: "CUSTOM_FMCG"
+    official: "OFFICIAL_FMCG"
+    label: "FMCG"
+  - custom: "CUSTOM_AUTO"
+    official: "OFFICIAL_AUTO"
+    label: "Auto"
+  - custom: "CUSTOM_METALS_MINING"
+    official: "OFFICIAL_METAL"
+    label: "Metals & Mining"
+  - custom: "CUSTOM_ENERGY"
+    official: "OFFICIAL_ENERGY"
+    label: "Energy"
