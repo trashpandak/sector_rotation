@@ -1,0 +1,77 @@
+name: NSE Market Rotation Compass
+
+# Schedule: daily on weekdays after NSE close (15:30 IST), with a buffer for
+# EOD data availability. 18:00 IST = 12:30 UTC. For weekly instead, drop the
+# weekday cron and uncomment the Friday-only one below.
+on:
+  schedule:
+    - cron: "45 12 * * 1-5"   # Daily, Mon-Fri, 12:45 UTC (18:15 IST)
+    # - cron: "45 12 * * 5"   # Weekly alternative: Fridays only
+  workflow_dispatch:
+    inputs:
+      as_of_date:
+        description: "Override as-of date (YYYY-MM-DD). Leave blank for today."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          PYTHONPATH: src
+          # Optional -- only used if config/notifications.yaml has the
+          # corresponding channel enabled. Leave these secrets unset in repo
+          # Settings -> Secrets to keep notifications off; nothing else
+          # needs to change.
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -n "${{ github.event.inputs.as_of_date }}" ]; then
+            python scripts/run_pipeline.py --as-of-date "${{ github.event.inputs.as_of_date }}"
+          else
+            python scripts/run_pipeline.py
+          fi
+
+      - name: Commit updated data, report, and docs
+        run: |
+          git config user.name "rrg-bot"
+          git config user.email "rrg-bot@users.noreply.github.com"
+          git add data/ reports/ docs/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Automated rotation compass run: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
+
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rotation-run-${{ github.run_id }}
+          path: |
+            data/rrg.db
+            reports/
+          retention-days: 14
